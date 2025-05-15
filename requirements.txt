@@ -1,0 +1,6 @@
+boto3
+botocore
+polars
+pandas
+tqdm
+python-dateutil
