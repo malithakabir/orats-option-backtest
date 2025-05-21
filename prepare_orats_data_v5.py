@@ -34,7 +34,7 @@ Usage:
       --signals signals.csv \
       --time-col t \
       --cred cred.json \
-      --out-dir out \
+      --out-dir output \
       --entry-file entry.csv.gz \
       --exit-file exit.csv.gz \
       --signal-tz UTC \
@@ -170,9 +170,24 @@ def extract_chunks(
             # All retries failed
             raise
 
+    # # Decompress & parse
+    # with gzip.GzipFile(fileobj=raw) as gz:
+    #     df = pl.read_csv(gz)
+
+
     # Decompress & parse
     with gzip.GzipFile(fileobj=raw) as gz:
-        df = pl.read_csv(gz)
+        try:
+            df = pl.read_csv(
+                gz,
+                # infer_schema_length=5_000,
+                # schema_overrides={"snapShotEstTime": pl.Float64},
+                # ignore_ragged_lines=True
+            )
+        except Exception as e:
+            log.error("❌  Failed to parse %s: %s", key, e)
+            # Optionally wrap and re-raise so the failure still bubbles up:
+            raise RuntimeError(f"Error parsing {key}") from e
 
     if df.height == 0:
         return {}
@@ -229,6 +244,7 @@ def process_fetch_tasks(
     Given a list of (date_folder, key, tickers) tasks, fetch and write them
     into a single compressed CSV at out_path with a progress bar.
     """
+    log.info("👉 Starting %s fetch with %d workers", desc, workers)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     gz_writer = gzip.open(out_path, "wt", compresslevel=5)
     write_q: queue.Queue = queue.Queue(maxsize=workers * 2)
@@ -257,7 +273,7 @@ def main():
     ap.add_argument("--time-col",     default="t", help="Name of the datetime column in the signals CSV")
     ap.add_argument("--cred",         default="cred.json", help="Path to Wasabi cred.json")
     ap.add_argument("--bucket",       default="nufintech-orats", help="Wasabi S3 bucket name")
-    ap.add_argument("--out-dir",      default="out",           help="Directory to write outputs")
+    ap.add_argument("--out-dir",      default="output",           help="Directory to write outputs")
     ap.add_argument("--entry-file",   default="entry.csv.gz",  help="Filename for entry CSV")
     ap.add_argument("--exit-file",    default="exit.csv.gz",   help="Filename for exit CSV")
     ap.add_argument("--signal-tz",    default="UTC",           help="IANA timezone of signal timestamps")
@@ -307,12 +323,16 @@ def main():
     entry_tasks, exit_tasks = [], []
     for (d, m), tkset in entry_map.items():
         keys = list_keys(s3, args.bucket, d)
-        matches = [k for k in keys if m in k]
+        suffix = f"{d}{m}.csv.gz"
+        matches = [k for k in keys if k.endswith(suffix)]
+
         if not matches:
             log.warning("⚠️  no snapshot for %s at %s", d, m)
         else:
             if len(matches) > 1:
-                log.warning("⚠️  multiple for %s at %s, taking first", d, m)
+                # log.warning("⚠️  multiple for %s at %s, taking first", d, m)
+                log.warning("⚠️  multiple for %s at %s, taking first\n    %s",
+                            d, m, "\n    ".join(matches))
             entry_tasks.append((d, matches[0], tkset))
 
     for (d, m), tkset in exit_map.items():
