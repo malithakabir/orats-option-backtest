@@ -9,7 +9,7 @@ This repository contains two main scripts:
    Fetches the last snapshot of all the fridays.
 
 
-2. **Backtester** (`orats_backtest_v6.py`):  
+2. **Backtester** (`orats_backtest_v11.py`):  
    Runs a one‐trade‐per‐signal weekly debit vertical‐spread backtest, choosing call vs. put based on your signal’s “trend”, targeting specific option deltas, and enforcing bid‐ask spread & risk‐reward criteria.
 
 ---
