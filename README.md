@@ -20,7 +20,6 @@ This repository contains two main scripts:
 .
 ├── report.ipynb
 ├── cred.json
-├── signals.csv
 ├── requirements.txt
 ├── split_files.py
 ├── prepare_orats_exit_data.py
@@ -35,6 +34,10 @@ This repository contains two main scripts:
     ├── part_002_trades.csv
     ├── all_trades.csv
     └── report.csv
+└── signal-files/
+    ├── part_001.csv
+    ├── part_002.csv
+    └── part_003.csv
 ```
 
 ## Prerequisites
