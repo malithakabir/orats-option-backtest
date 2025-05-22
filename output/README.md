@@ -1,0 +1,1 @@
+This folder is blank. Previously used to keep downloaded data.
