@@ -1,4 +1,0 @@
-timestamp,ticker,trend,side,delta_target,delta_long,delta_short,strike_long,strike_short,S_entry,S_exit,width,debit,RR,spread_long,spread_short,spread_pct_long,spread_pct_short,mid_long_exit,mid_short_exit,pnl
-2023-05-03T15:35:00+00:00,MPC,Bullish,call,0.4,0.3887,0.295,113.0,114.0,111.73,106.89,1.0,0.42,1.381,0.08,0.07,0.0769,0.1,0.005,0.015,-0.43
-2023-05-03T16:05:00+00:00,VLO,Bullish,call,0.4,0.4517,0.3459,109.0,110.0,108.45,106.98,1.0,0.52,0.9231,0.15,0.1,0.122,0.1163,0.005,0.005,-0.52
-2023-05-04T18:40:00+00:00,AMD,Bullish,call,0.4,0.4155,0.3057,89.0,90.0,88.3,89.75,1.0,0.32,2.125,0.02,0.01,0.0215,0.0159,0.77,0.005,0.445
