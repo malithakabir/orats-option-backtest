@@ -8,8 +8,7 @@ This repository contains two main scripts:
 1. **Exit Data Preparation** (`prepare_orats_exit_data.py`)
    Fetches the last snapshot of all the fridays.
 
-
-2. **Backtester** (`orats_backtest_v11.py`):  
+1. **Backtester** (`orats_backtest_v12.py`):  
    Runs a one‐trade‐per‐signal weekly debit vertical‐spread backtest, choosing call vs. put based on your signal’s “trend”, targeting specific option deltas, and enforcing bid‐ask spread & risk‐reward criteria.
 
 ---
@@ -32,8 +31,7 @@ This repository contains two main scripts:
 └── results/
     ├── part_001_trades.csv
     ├── part_002_trades.csv
-    ├── all_trades.csv
-    └── report.csv
+    └── all_trades.csv
 └── signal-files/
     ├── part_001.csv
     ├── part_002.csv
@@ -99,18 +97,17 @@ python prepare_orats_data_v6.py \
 | `--use-select`    | Enable S3 Select filtering                              | *off*                     |
 | `--max-retries`   | Retry count on SSL/network errors                       | `3`                       |
 
-### `orats_backtest_v11.py`
+### `orats_backtest_v12.py`
 | Flag               | Description                                                                                    | Default                       |
 |--------------------|------------------------------------------------------------------------------------------------|-------------------------------|
 | `--signals`        | CSV with `t`, `ticker`, `trend`                                                                | —                             |
 | `--time-col`       | Timestamp column in signals CSV                                                                | `t`                           |
 | `--signals-tz`     | Timezone of naive timestamps (`UTC` or `ET`)                                                   | `UTC`                         |
-| `--input-dir`      | Directory holding `entry.csv.gz` & `exit.csv.gz`                                               | `./output`                    |
 | `--entry-file`     | Entry snapshot filepath                                                                        | `output/part_001_entry.csv.gz`|
 | `--exit-file`      | Exit snapshot filepath                                                                         | `output/exit.csv.gz`          |
 | `--delta-targets`  | Comma-separated list of target deltas (e.g. `0.10,0.25,0.40`)                                  | `0.10 to 1.0`                 |
 | `--max-spread-pct` | Maximum allowed bid-ask spread as fraction of bid price                                        | `0.15`                        |
 | `--min-rr`         | Minimum required risk-reward ratio                                                             | `0.8`                         |
-| `--out`            | Output directory for `trades.csv`                                                              | `trades.csv                   |
+| `--out`            | Output path for `trades.csv`                                                                   | `trades.csv`                  |
 
 ---
