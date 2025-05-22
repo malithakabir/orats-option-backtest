@@ -18,6 +18,7 @@ This repository contains two main scripts:
 
 ```
 .
+├── report.ipynb
 ├── cred.json
 ├── signals.csv
 ├── requirements.txt
