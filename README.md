@@ -22,8 +22,9 @@ This repository contains two main scripts:
 ├── requirements.txt
 ├── split_files.py
 ├── prepare_orats_exit_data.py
-├── prepare_orats_data_v5.py
-├── orats_backtest_v6.py
+├── prepare_orats_data_v6.py
+├── orats_backtest_v12.py
+├── metrics_from_transactions.py
 ├── output/
 │   ├── part_001_entry.csv.gz
     ├── part_002_entry.csv.gz
